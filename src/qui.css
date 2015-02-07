@@ -1,0 +1,125 @@
+.qui-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    opacity: 0.2;
+    background-color: #333;
+}
+
+.qui-p {
+    position: fixed;
+    left: 40%;
+    top: 30%;
+    width: auto;
+    height: auto;
+}
+
+.qui .qui-icon-sprite {
+    background: url("sprite.png");
+}
+
+.qui .qui-icon {
+    display: inline-block;
+    font-size: 22px;
+    text-align: center;
+    height: 22px;
+    width: 22px;
+    overflow: hidden;
+    line-height: 22px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.qui .qui-icon-ok {
+    background-position: -284px 3px;
+    background-color: #5cb85c;
+    border: #5cb85c;
+}
+.qui .qui-btn{
+    display: inline-block;
+    min-width: 50px;
+    min-height: 20px;
+    color: #fff;
+    background-color: #6cb5f4;
+    border-color: #54a9f2;
+    text-align: center;
+    padding: 4px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    line-height: 20px;
+    cursor: pointer;
+}
+.qui .qui-btn:hover{
+    background-color: #337ab7;
+}
+.qui .qui-msg {
+    display: inline-block;
+    margin-left: -24px;
+    margin-top: -1px;
+    line-height: 24px;
+    vertical-align: top;
+    word-wrap: break-word;
+    text-indent: 30px;
+    font-size: 13px;
+    padding: 2px;
+}
+
+.qui-p .qui-p-wrap {
+    min-width: 200px;
+    min-height: 50px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    border: 1px solid rgba(0, 0, 0, .2);
+    overflow: hidden;
+    position: relative;
+    display: block;
+    background-clip: padding-box;
+    outline: 0;
+    z-index: 1001;
+}
+.qui-p .qui-dialog{
+    padding: 15px 20px;
+}
+.qui-p .qui-p-head {
+    text-align: center;
+    letter-spacing: 10px;
+    background-color: #337ab7;
+    border: 0;
+}
+
+.qui-p .qui-p-close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    color: #000;
+    margin: 0;
+    cursor: pointer;
+    display: block;
+    font-size: 22px;
+    line-height: 1;
+    border: none;
+    padding: 3px;
+}
+
+.qui-p .qui-p-head .qui-p-close:before {
+    content: "\2715";
+}
+.qui-p-foot{
+    margin-top: 12px;
+    text-align: right;
+}
+.qui-p .qui-dialog {
+    min-width: 200px;
+}
