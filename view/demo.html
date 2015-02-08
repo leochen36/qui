@@ -7,7 +7,7 @@
     <link href="style.css" type="text/css" rel="stylesheet"/>
     <link href="../src/qui.css" type="text/css" rel="stylesheet"/>
 
-    <script src="qmik.js" type="text/javascript"></script>
+    <script src="qmik.js?104" type="text/javascript"></script>
 
 </head>
 <body>
@@ -31,16 +31,24 @@
 </body>
 <script src="../src/qui.js" type="text/javascript"></script>
 <script type="text/javascript">
-    console.log(location.pathname)
+
+    define("module/demo", function(require){
+        var module = {};
+        console.log("testdemo");
+
+        return module;
+    });
+    $.use("module/demo");
+    $.use("module/demo");
+
+
     var base = location.protocol +"//"+location.host+ location.pathname.replace(/[^\/]*$/,"");
-    console.log(base);
     $.config({
         base: base
     });
     $.app().ctrl({
         demoTip: function (scope) {
             $.use("demoTip.js?"+ $.now(), function(demo){
-                console.log(demo);
                 demo.init(scope);
             });
         }

@@ -1,3 +1,4 @@
+body{width: 100%;height: 100%;}
 .qui-bg {
     position: fixed;
     width: 100%;
@@ -10,7 +11,6 @@
     opacity: 0.2;
     background-color: #333;
 }
-
 .qui-p {
     position: fixed;
     left: 40%;
@@ -19,6 +19,7 @@
     height: auto;
 }
 
+/** icon start */
 .qui .qui-icon-sprite {
     background: url("sprite.png");
 }
@@ -38,6 +39,8 @@
     border: 1px solid transparent;
     cursor: pointer;
     text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .qui .qui-icon-ok {
@@ -45,6 +48,19 @@
     background-color: #5cb85c;
     border: #5cb85c;
 }
+.qui .qui-icon-info {
+    background-position: -19px 136px;
+    background-color: #5bc0de;
+    border: #5bc0de;
+}
+.qui .qui-icon-confirm {
+    background-position: -43px 136px;
+    background-color: #5bc0de;
+    border: #5bc0de;
+}
+/** icon end */
+
+/** 按钮 start */
 .qui .qui-btn{
     display: inline-block;
     min-width: 50px;
@@ -58,11 +74,22 @@
     border-radius: 4px;
     line-height: 20px;
     cursor: pointer;
+    letter-spacing: 5px;
+    text-indent: 5px;
+    margin: 0 5px;
 }
 .qui .qui-btn:hover{
     background-color: #337ab7;
 }
+
+/** 按钮 end */
+
 .qui .qui-msg {
+
+
+    font-size: 13px;
+}
+.qui .qui-msg-content{
     display: inline-block;
     margin-left: -24px;
     margin-top: -1px;
@@ -72,8 +99,10 @@
     text-indent: 30px;
     font-size: 13px;
     padding: 2px;
+    max-width: 98%;
+    letter-spacing: 0;
+    text-align: justify;
 }
-
 .qui-p .qui-p-wrap {
     min-width: 200px;
     min-height: 50px;
