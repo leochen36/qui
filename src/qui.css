@@ -1,4 +1,25 @@
-body{width: 100%;height: 100%;}
+body, ul, li, p {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+@font-face {
+    font-family: 'HansHandItalic';
+    src: url(‘fonts/hanshand-webfont.eot’);
+    src: url(‘fonts/hanshand-webfont.eot?#iefix’) format(‘embedded-opentype’),
+    url(‘fonts/hanshand-webfont.woff’) format(‘woff’),
+    url(‘fonts/hanshand-webfont.ttf’) format(‘truetype’),
+    url(‘fonts/hanshand-webfont.svg#webfont34M5alKg’) format(‘svg’);
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+}
+
 .qui-bg {
     position: fixed;
     width: 100%;
@@ -11,20 +32,82 @@ body{width: 100%;height: 100%;}
     opacity: 0.2;
     background-color: #333;
 }
-.qui-p {
+
+.qui-pop {
     position: fixed;
     left: 40%;
     top: 30%;
     width: auto;
     height: auto;
+    z-index: 999;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .36);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .36);
+    border: 1px solid rgba(0, 0, 0, .2);
+    overflow: hidden;
+    background-clip: padding-box;
+    outline: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+}
+.qui-pop .qui-pop-body{
+    position: relative;
+}
+.qui-view {
+    min-width: 480px;
+    left: 30%;
+}
+
+.qui-no {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
+.qui-mask-abs {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    background-color: transparent;
+}
+
+.qui-view .qui-pop-wrap {
+    padding: 10px 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.qui-loading {
+    background: url("img/load.gif") no-repeat;
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    position: fixed;
+    left: 47%;
+    top: 40%;
+    z-index: 999;
+    background-position: center;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 /** icon start */
-.qui .qui-icon-sprite {
-    background: url("sprite.png");
-}
-
-.qui .qui-icon {
+.qui-icon {
+    background-image: url("img/sprite.png");
+    background-color: #b8860b;
+    border: #b8860b;
     display: inline-block;
     font-size: 22px;
     text-align: center;
@@ -41,33 +124,33 @@ body{width: 100%;height: 100%;}
     text-decoration: none;
     -webkit-user-select: none;
     user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    z-index: 9;
 }
 
-.qui .qui-icon-ok {
+.qui-icon-ok {
     background-position: -284px 3px;
-    background-color: #5cb85c;
-    border: #5cb85c;
 }
-.qui .qui-icon-info {
+
+.qui-icon-alert, .qui .qui-icon-tip {
     background-position: -19px 136px;
-    background-color: #5bc0de;
-    border: #5bc0de;
 }
-.qui .qui-icon-confirm {
+
+.qui-icon-confirm {
     background-position: -43px 136px;
-    background-color: #5bc0de;
-    border: #5bc0de;
 }
+
 /** icon end */
 
 /** 按钮 start */
-.qui .qui-btn{
+.qui-btn {
+    background-color: #B37C57;
+    border-color: #B37C57;
     display: inline-block;
     min-width: 50px;
     min-height: 20px;
     color: #fff;
-    background-color: #6cb5f4;
-    border-color: #54a9f2;
     text-align: center;
     padding: 4px 12px;
     font-size: 14px;
@@ -77,19 +160,22 @@ body{width: 100%;height: 100%;}
     letter-spacing: 5px;
     text-indent: 5px;
     margin: 0 5px;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
-.qui .qui-btn:hover{
-    background-color: #337ab7;
+
+.qui-btn:hover {
+    background-color: #a26b46;
 }
 
 /** 按钮 end */
-
-.qui .qui-msg {
-
-
+.qui-msg {
     font-size: 13px;
 }
-.qui .qui-msg-content{
+
+.qui-msg-content {
     display: inline-block;
     margin-left: -24px;
     margin-top: -1px;
@@ -103,32 +189,50 @@ body{width: 100%;height: 100%;}
     letter-spacing: 0;
     text-align: justify;
 }
-.qui-p .qui-p-wrap {
+
+.qui-pop .qui-pop-wrap {
     min-width: 200px;
     min-height: 50px;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-    border: 1px solid rgba(0, 0, 0, .2);
-    overflow: hidden;
+
     position: relative;
     display: block;
     background-clip: padding-box;
     outline: 0;
-    z-index: 1001;
-}
-.qui-p .qui-dialog{
-    padding: 15px 20px;
-}
-.qui-p .qui-p-head {
-    text-align: center;
-    letter-spacing: 10px;
-    background-color: #337ab7;
-    border: 0;
 }
 
-.qui-p .qui-p-close {
+.qui-pop .qui-dialog {
+    padding: 15px 20px;
+}
+
+.qui-pop .qui-pop-head {
+    text-align: center;
+    letter-spacing: 16px;
+    background-color: #924d20;
+    border: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    line-height: 36px;
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: move;
+}
+
+.qui-pop .qui-pop-head .qui-close:before {
+    content: "\2715";
+}
+
+.qui-pop-foot {
+    margin-top: 12px;
+    text-align: right;
+}
+
+.qui-pop .qui-dialog {
+    min-width: 200px;
+}
+
+.qui .qui-close {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -140,15 +244,42 @@ body{width: 100%;height: 100%;}
     line-height: 1;
     border: none;
     padding: 3px;
+    background-color: transparent;
+    text-decoration: none;
+    width: 22px;
+    text-align: center;
 }
 
-.qui-p .qui-p-head .qui-p-close:before {
-    content: "\2715";
+.qui .qui-clr-white {
+    color: #ffffff;
 }
-.qui-p-foot{
-    margin-top: 12px;
-    text-align: right;
+
+.qui .qui-scroll {
+    position: absolute;
+    width: 8px;
+    height: 100%;
+    top: 2px;
+    right: 1px;
+    z-index: 999;
+
 }
-.qui-p .qui-dialog {
-    min-width: 200px;
+
+.qui .qui-scroll .qui-scroll-block {
+    opacity: 0;
+    transition: ease-in-out 500ms;
+    background-color: #cfcfcf;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .36);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .36);
+    border: 1px solid rgba(0, 0, 0, .2);
+    overflow: hidden;
+    background-clip: padding-box;
+    outline: 0;
+    position: relative;
+    top: 0;
+}
+
+.qui .qui-pop-wrap:hover .qui-scroll .qui-scroll-block {
+    opacity: 1;
+
 }
