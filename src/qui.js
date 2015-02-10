@@ -115,13 +115,11 @@
             return qload;
         },
         popView: function (param) {//弹出iframe
-            Q(".qui-alert").remove();
-
             var newParam = Q.extend({}, g_param, param);
             if (newParam.shadeClose) {
                 addBG();
             }
-            makeView(newParam);
+            return makeView(newParam);
         }
     });
 
@@ -159,6 +157,7 @@
     }
 
     function makeView(param) {
+        param.style = param.style || {};
         if (param.url) {
             param.html = "";
         } else {
@@ -184,12 +183,15 @@
                 height: height,
                 top: top
             });
+
             qdom.css({
                 top: (window.innerHeight - height) / 3,
                 left: (window.innerWidth - width) / 2,
                 visibility: "visible",
                 height: qdom.find(".qui-pop-wrap").height() + qdom.find(".qui-pop-head").height()
             });
+            qdom.css(Q.cssPrefix(param.style));
+            
             Q(ibody).on({
                 resize: function () {
                     Q(this).css({
