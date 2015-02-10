@@ -15,7 +15,7 @@
         '<div class="qui-pop-head qui-no">${title} </div>' +
         '<a href="javascript:" class="qui-close qui-clr-white qui-no">x</a>' +
         '<div class="qui-pop-wrap ${moveBottom}">' +
-        '<div class="qui-pop-body"><iframe src="${url}" width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"/></div>' +
+        '<div class="qui-pop-body">${html}<iframe src="${url}" width="100%" height="100%" style="display:none;" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"/></div>' +
         '</div>' +
         '</div>';
     var g_param = {
@@ -159,88 +159,111 @@
     }
 
     function makeView(param) {
+        if (param.url) {
+            param.html = "";
+        } else {
+            param.url = "";
+        }
         var html = replaceVar(templateView, param);
         var qdom = Q(html);
-        qdom.find("iframe").on({
-            load: function (e) {
-                var qbody = Q(this.contentWindow.document.body);
-                var width = qbody.width();
-                var height = Math.min(window.innerHeight - 100, qbody.height());
-                var top = 0;
-                if (param.title) {
-                    top = qdom.find(".qui-pop-head").height();
+        if (param.url) {
+            qdom.find("iframe").show();
+        } else {
+            qdom.find("iframe").remove();
+        }
+        function initViewSize(ibody) {
+            var qbody = Q(ibody);
+            var width = qbody.width();
+            var height = Math.min(window.innerHeight - 200, qbody.height());
+            var top = 0;
+            if (param.title) {
+                top = qdom.find(".qui-pop-head").height();
+            }
+            qdom.find(".qui-pop-wrap").css({
+                width: width,
+                height: height,
+                top: top
+            });
+            qdom.css({
+                top: (window.innerHeight - height) / 3,
+                left: (window.innerWidth - width) / 2,
+                visibility: "visible",
+                height: qdom.find(".qui-pop-wrap").height() + qdom.find(".qui-pop-head").height()
+            });
+            Q(ibody).on({
+                resize: function () {
+                    Q(this).css({
+                        height: qbody.height() + qdom.find(".qui-pop-head").height()
+                    });
+                    scroll(qdom);
                 }
-                qdom.find(".qui-pop-wrap").css({
-                    width: width,
-                    height: height,
-                    top: top
-                });
+            });
+            scroll(qdom);
+        }
+
+        qdom.find(".qui-pop-body > iframe").on({
+            load: function (e) {
+                var ibody = this.contentWindow.document.body;
+                var qbody = Q(ibody);
                 Q(this).css({
                     height: qbody.height() + qdom.find(".qui-pop-head").height()
                 });
-                qdom.css({
-                    top: (window.innerHeight - height) / 3,
-                    left: (window.innerWidth - width) / 2,
-                    visibility: "visible"
-                });
-                Q(this.contentWindow).on({
-                    resize: function () {
-                        Q(this).css({
-                            height: qbody.height() + qdom.find(".qui-pop-head").height()
-                        });
-                    }
-                });
-                scroll(qdom);
+                initViewSize(ibody);
             }
         });
 
         g_dialog = qdom;
         Q('body').append(qdom);
+
         Q.delay(function () {
+            initViewSize(qdom.find(".qui-pop-body"));
             qdom.css({
                 visibility: "visible"
             });
-        }, 1000);
+        }, 100);
         makeEventScroll(qdom);
         makeEventDrag(qdom);
         return qdom;
     }
 
+
     function makeEventScroll(qdom) {
+        makeEventScroll.y = 0;
         qdom.on({
             mousewheel: function (e) {
                 var wheelDelta = e.wheelDelta;
+                wheelDelta = Math.abs(wheelDelta) > 12 ? wheelDelta / 10 : wheelDelta;
+                makeEventScroll.y = e.clientY;
+
+                if (qdom.find(".qui-scroll").css("display") == "none") {
+                    return;
+                }
                 var qblock = qdom.find(".qui-scroll .qui-scroll-block");
                 var qbody = qdom.find(".qui-pop-body");
-
+                var bei = 1 / getScrollRatio(qdom);
                 var countHeight = qdom.find(".qui-scroll").height();
-                var countHeightBody = qbody.height() + qdom.find(".qui-pop-head").height() * 2;
-
-                var _topBody = parseFloat(qbody.css("top")) || 0;
                 var _top = parseFloat(qblock.css("top")) || 0;
-
-                Q.log("body top:", _topBody);
-
-                _top = _top - wheelDelta * 2;
-                _topBody = _topBody - wheelDelta * 2;
+                _top = _top - wheelDelta * getScrollRatio(qdom);
                 var maxTop = countHeight - qblock.height();
-                var maxTopBody = countHeightBody - qdom.height();
                 var minTop = 0;
-                var minTopBody = 0;
 
                 if (wheelDelta < 0) {
                     _top = Math.min(_top, maxTop);
-                    _topBody = Math.max(minTopBody, _topBody);
                 } else {
                     _top = Math.max(minTop, _top);
-                    _topBody = Math.min(_topBody, maxTopBody);
                 }
-                console.log("topbody:", _topBody, " top:", _top);
+                var _topBody = _top * bei + qdom.find(".qui-pop-head").height() * 2;
+                if (_top == maxTop) {
+                    _topBody = qbody.height() - qdom.find(".qui-scroll").height();
+                } else if (_top == minTop) {
+                    _topBody = minTop;
+                }
+
                 qblock.css({
                     top: _top
                 });
-                qbody.css({
-                    "top": -_topBody
+                moveNode(qbody, {
+                    y: -_topBody
                 });
                 e.stopPropagation();
                 e.preventDefault();
@@ -348,15 +371,33 @@
     }
 
     function scroll(qdom) {
+        qdom.find(".qui-pop-wrap .qui-scroll").remove();
         qdom.find(".qui-pop-wrap").append('<div class="qui-scroll"><div class="qui-scroll-block"></div></div>');
         var scrollHeight = qdom.height() - qdom.find(".qui-pop-head").height() - 10;
-        var block = scrollHeight * getScrollRatio(qdom);
+        var blockHeight = scrollHeight * getScrollRatio(qdom);
         qdom.find(".qui-scroll").css({
             height: scrollHeight
         });
         qdom.find(".qui-scroll-block").css({
-            height: block
+            height: blockHeight
         });
+        if (blockHeight >= scrollHeight - 1) {
+            qdom.find(".qui-scroll").hide();
+        } else {
+            qdom.find(".qui-scroll").show();
+        }
+    }
+
+    function moveNode(qviewdom, site) {
+        var has3d = "WebKitCSSMatrix" in window && "m11" in new WebKitCSSMatrix();
+        var a = has3d ? "translate3d(" : "translate(";
+        var b = has3d ? ",0)" : ")";
+        site.x = site.x || 0;
+        site.y = site.y || 0;
+        var style = Q.cssPrefix({
+            transform: a + site.x + "px," + site.y + "px" + b
+        });
+        qviewdom.css(style);
     }
 
     Q.ui = new UI();

@@ -13,6 +13,7 @@ define("demoTip", function (require) {
                     if(name=="popView"){
                         $.ui.popView({
                             url:"./subview.html",
+                            html:'<div>343</div>',
                             shadeClose: true,
                             title:'填写信息'
                         })
