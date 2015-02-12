@@ -15,9 +15,10 @@
         '<div class="qui-pop-head qui-no">${title} </div>' +
         '<a href="javascript:" class="qui-close qui-clr-white qui-no">x</a>' +
         '<div class="qui-pop-wrap ${moveBottom}">' +
-        '<div class="qui-pop-body">${html}<iframe src="${url}" width="100%" height="100%" style="display:none;" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"/></div>' +
+        '<div class="qui-pop-body"><iframe src="${url}" width="100%" height="100%" style="display:none;" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"/></div>' +
         '</div>' +
         '</div>';
+    Q.getCss("/lib/qmik/qui/qui.css");
     var g_param = {
         shadeClose: true
     };
@@ -169,11 +170,12 @@
             qdom.find("iframe").show();
         } else {
             qdom.find("iframe").remove();
+            qdom.find(".qui-pop-body").html(param.html);
         }
         function initViewSize(ibody) {
             var qbody = Q(ibody);
-            var width = qbody.width();
-            var height = Math.min(window.innerHeight - 200, qbody.height());
+            var width = qbody.width() + 20;
+            var height = Math.min(window.innerHeight - 200, qbody.height()) + 20;
             var top = 0;
             if (param.title) {
                 top = qdom.find(".qui-pop-head").height();
@@ -191,7 +193,7 @@
                 height: qdom.find(".qui-pop-wrap").height() + qdom.find(".qui-pop-head").height()
             });
             qdom.css(Q.cssPrefix(param.style));
-            
+
             Q(ibody).on({
                 resize: function () {
                     Q(this).css({
